@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: flex-start;
 }
 
 .App-logo {
@@ -35,4 +36,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-container {
+  padding: 20px;
+  border: 2px solid black;
+  margin: 20px;
+}
+
+.product-row > td {
+  border: 2px solid lightblue;
+}
+
+.product-category > td{
+  border: 2px solid pink;
 }
