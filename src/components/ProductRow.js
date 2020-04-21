@@ -10,8 +10,8 @@ const ProductRow = props => {
   const { product } = props
 
   const ColorSpan = styled.span`
-    color: ${!product.stocked ? "red" : "inherit"}};
-    font-style: italic;
+    color: ${!product.stocked ? "#aa00ff" : "inherit"};
+    font-style: ${!product.stocked ? "italic" : "normal"};
   `
 
   return (
