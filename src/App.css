@@ -39,9 +39,7 @@
 }
 
 .App-container {
-  padding: 20px;
-  border: 2px solid black;
-  margin: 20px;
+  margin: 40px;
 }
 
 .product-row > td {
@@ -51,3 +49,4 @@
 .product-category > td{
   border: 2px solid pink;
 }
+

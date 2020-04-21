@@ -1,5 +1,12 @@
 import React from 'react'
 
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import ProductsCategoryRow from './ProductsCategoryRow'
 import ProductRow from './ProductRow'
 
@@ -45,21 +52,19 @@ const renderProductsRows = props => {
 }
 
 const ProductsTable = props => {
-  if (props.isLoading) return (<p>Loading products...</p>)
+  if (props.isLoading) return (<CircularProgress></CircularProgress>)
   return (
-    <div>
-      <table style={{ width: '100%' }}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {renderProductsRows(props)}
-        </tbody>
-      </table>
-    </div>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Name</TableCell>
+          <TableCell>Price</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {renderProductsRows(props)}
+      </TableBody>
+    </Table>
   )
 }
 
