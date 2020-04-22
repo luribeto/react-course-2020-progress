@@ -1,7 +1,31 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
+
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
+
 import SearchBar from './SearchBar'
 import ProductTable from './ProductTable'
 import '../App.css'
+
+const styles = {
+  card: {
+    minWidth: 550,
+    borderRadius: 20,
+    backgroundColor: '#eae5fd'
+  },
+  title: {
+    color: '#585373'
+  }
+};
+
+const StyledActions = styled(CardActions)`
+  padding: 20px 30px;
+`
 
 class FilterableProductTable extends Component {
   constructor(props) {
@@ -33,23 +57,30 @@ class FilterableProductTable extends Component {
 
   render() {
     const { filterText, isStockOnly } = this.state;
+    const { classes } = this.props;
 
     return (
       <div className="App-container">
-        <div>
-          <h4>PRODUCT SEARCH APP</h4>
-        </div>
-        <SearchBar
-          filterText={filterText}
-          filterValueChanged={this.filterValueChanged}
-          isStockOnly={isStockOnly}
-          stockOnlyValueChanged={this.stockOnlyValueChanged}
-        />
-        <br />
-        <ProductTable {...this.getProductTableProps()} />
+        <Card className={classes.card}>
+          <CardHeader title="PRODUCT SEARCH APP" subheader="React Course 2020">
+          </CardHeader>
+          <CardContent>
+            <SearchBar
+              filterText={filterText}
+              filterValueChanged={this.filterValueChanged}
+              isStockOnly={isStockOnly}
+              stockOnlyValueChanged={this.stockOnlyValueChanged}
+            />
+            <br />
+            <ProductTable {...this.getProductTableProps()} />
+          </CardContent>
+          <StyledActions>
+            <Button size="small" color="primary">Add New Product</Button>
+          </StyledActions>
+        </Card>
       </div>
     )
   }
 }
 
-export default FilterableProductTable
+export default withStyles(styles)(FilterableProductTable);

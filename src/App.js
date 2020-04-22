@@ -17,7 +17,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.fetchProducts();
+    setTimeout(this.fetchProducts, 3000)
   }
 
   fetchProducts = async () => {
