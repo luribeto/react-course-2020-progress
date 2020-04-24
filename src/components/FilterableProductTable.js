@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -10,6 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import SearchBar from './SearchBar'
 import ProductTable from './ProductTable'
+import { fetchProducts } from '../redux/actionCreators';
 import '../App.css'
 
 const styles = {
@@ -37,6 +39,10 @@ class FilterableProductTable extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.fetchProducts()
+  }
+
   filterValueChanged = filterText => {
     this.setState({ filterText })
   }
@@ -49,9 +55,6 @@ class FilterableProductTable extends Component {
     return {
       filterText: this.state.filterText,
       isStockOnly: this.state.isStockOnly,
-      products: this.props.products,
-      isLoading: this.state.isLoading,
-      isLoading: this.props.isLoading,
     }
   }
 
@@ -83,4 +86,9 @@ class FilterableProductTable extends Component {
   }
 }
 
-export default withStyles(styles)(FilterableProductTable);
+const mapStateToProps = null
+const mapDispatchToProps = dispatch => ({
+  fetchProducts: () => dispatch(fetchProducts)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(FilterableProductTable));
