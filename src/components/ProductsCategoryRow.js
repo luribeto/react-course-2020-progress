@@ -9,7 +9,7 @@ const ProductsCategoryRow = props => {
   console.log(styles['row-padding'])
   return (
     <TableRow key={props.name}>
-      <TableCell className={styles['row-padding']} colSpan={2} component="td" scope="row">
+      <TableCell className={styles['row-padding']} colSpan={3} component="td" scope="row">
         {props.name}
       </TableCell>
     </TableRow>

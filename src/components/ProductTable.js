@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -57,6 +58,7 @@ const ProductsTable = props => {
     <Table>
       <TableHead>
         <TableRow>
+          <TableCell></TableCell>
           <TableCell>Name</TableCell>
           <TableCell>Price</TableCell>
         </TableRow>
@@ -68,4 +70,9 @@ const ProductsTable = props => {
   )
 }
 
-export default ProductsTable
+const mapStateToProps = state => ({
+  products: state.productsList.products,
+  isLoading: state.productsList.isLoading,
+})
+
+export default connect(mapStateToProps)(ProductsTable)

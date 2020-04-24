@@ -1,41 +1,21 @@
 import React, { Component } from 'react';
 import { fetchProducts } from './services/products'
+import { Provider } from 'react-redux'
+import { store } from './redux/store'
+
+import Header from './components/Header';
 
 import FilterableProductTable from './components/FilterableProductTable.js';
 
 class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      productsRes: {
-        products: [],
-        errMess: null,
-        isLoading: true,
-      }
-    }
-  }
-
-  componentDidMount() {
-    setTimeout(this.fetchProducts, 3000)
-  }
-
-  fetchProducts = async () => {
-    const response = await fetchProducts()
-    this.setState({
-      productsRes: {
-        products: response,
-        errMess: null,
-        isLoading: false
-      }
-    })
-  }
-
   render() {
     return (
-      <div className="App">
-        <FilterableProductTable {...this.state.productsRes} />
-      </div>
+      <Provider store={store}>
+        <Header />
+        <div className="App">
+          <FilterableProductTable />
+        </div>
+      </Provider>
     );
   }
 }
