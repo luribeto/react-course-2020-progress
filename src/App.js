@@ -1,23 +1,17 @@
-import React, { Component } from 'react';
-import { fetchProducts } from './services/products'
-import { Provider } from 'react-redux'
-import { store } from './redux/store'
+import React from 'react';
 
-import Header from './components/Header';
+import Header from './components/Header'
+import FilterableProductTable from './components/FilterableProductTable';
+import { Store } from './context/Store'
+import './App.css'
 
-import FilterableProductTable from './components/FilterableProductTable.js';
-
-class App extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Header />
-        <div className="App">
-          <FilterableProductTable />
-        </div>
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Store>
+    <Header />
+    <div className="App">
+      <FilterableProductTable />
+    </div>
+  </Store>
+)
 
 export default App;
