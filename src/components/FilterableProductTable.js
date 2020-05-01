@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -9,9 +9,6 @@ import Button from '@material-ui/core/Button';
 
 import SearchBar from './SearchBar'
 import ProductTable from './ProductTable'
-import { productsFailed, addProducts } from '../context/actionCreators'
-import { Context } from "../context/Store";
-import { fetchProducts } from '../services/products'
 
 const styles = {
   card: {
@@ -27,29 +24,19 @@ const StyledActions = styled(CardActions)`
 
 // ============================================================================
 
-const FilterableProductTable = () => {
-  // State of the component
-  const [filterText, setFilterText] = useState('')
-  const [isStockOnly, setStocked] = useState(false)
-  // dispatcher for global state and memoized dispatch
-  const { dispatch } = useContext(Context);
-  // Injected classes from material-ui hook
+const FilterableProductTable = props => {
   const classes = makeStyles(styles)();
-  // Filter callbacks
-  const filterValueChanged = (e) => setFilterText(e.target.value)
-  const stockOnlyValueChanged = () => setStocked(!isStockOnly)
-  // Fetch products function
-  const getProducts = useCallback(async () => {
-    const response = await fetchProducts()
-    if (response.error) return dispatch(productsFailed(response.error))
-    setTimeout(() => {
-      dispatch(addProducts(response))
-    }, 1000)
-  }, [dispatch])
-  // Fetch products once at mounting
-  useEffect(() => {
-    getProducts()
-  }, [getProducts])
+  const {
+    productsState,
+    filteredProducts,
+    filterText,
+    isStockOnly,
+    selected,
+    filterValueChanged,
+    stockOnlyValueChanged,
+    selectProduct,
+    unselectProduct
+  } = props
 
   return (
     <div className="App-container">
@@ -59,7 +46,7 @@ const FilterableProductTable = () => {
         <CardContent>
           <SearchBar {...{ filterText, isStockOnly, filterValueChanged, stockOnlyValueChanged }} />
           <br />
-          <ProductTable {...{ filterText, isStockOnly }} />
+          <ProductTable {...{ productsState, filteredProducts, selected, selectProduct, unselectProduct }} />
         </CardContent>
         <StyledActions>
           <Button size="small" color="primary">Add New Product</Button>
