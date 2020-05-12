@@ -1,22 +1,27 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Checkbox from '@material-ui/core/Checkbox'
 import styled from 'styled-components'
-import { selectProduct, unSelectProduct } from '../redux/actionCreators'
 
+import { selectProduct, unSelectProduct } from '../redux/actionCreators'
 import './ProductRow.css'
 
-const ProductRow = props => {
-  const { product, selectedProducts, onSelect, onUnselect } = props
-  const selected = selectedProducts.includes(product)
+const ColorSpan = styled.span`
+  color: ${props => !props.stocked ? "#aa00ff" : "inherit"};
+  font-style: ${props => !props.stocked ? "italic" : "normal"};
+`
 
-  const ColorSpan = styled.span`
-    color: ${!product.stocked ? "#aa00ff" : "inherit"};
-    font-style: ${!product.stocked ? "italic" : "normal"};
-  `
+const ProductRow = props => {
+  const { product } = props
+  const dispatch = useDispatch();
+  const { selectedProducts } = useSelector(state => ({
+    selectedProducts: state.productsList.selectedProducts
+  }));
+
+  const selected = selectedProducts.includes(product)
 
   return (
     <TableRow key={product.name}>
@@ -25,22 +30,17 @@ const ProductRow = props => {
           checked={selected}
           color="primary"
           disabled={!product.stocked}
-          onChange={() => selected ? onUnselect(product) : onSelect(product)}
+          onChange={() => selected ? dispatch(unSelectProduct(product)) : dispatch(selectProduct(product))}
         />
       </TableCell>
       <TableCell className="row-padding" component="td" scope="row" padding="none">
-        <ColorSpan>{product.name}</ColorSpan>
+        <ColorSpan stocked={product.stocked}>{product.name}</ColorSpan>
       </TableCell>
       <TableCell className="row-padding" component="td" scope="row" padding="none">
-        <ColorSpan>{product.price}</ColorSpan>
+        <ColorSpan stocked={product.stocked}>{product.price}</ColorSpan>
       </TableCell>
     </TableRow>
   )
 }
 
-const mapDispatchToProps = { onSelect: selectProduct, onUnselect: unSelectProduct }
-const mapStateToProps = state => ({
-  selectedProducts: state.productsList.selectedProducts
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductRow)
+export default ProductRow

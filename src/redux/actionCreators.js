@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes'
 import { baseUrl } from '../config/baseUrl'
 
 
-export const fetchProducts = (dispatch) => {
+export const fetchProducts = () => (dispatch, getState) => {
   dispatch(productsLoading());
 
   return fetch(baseUrl + 'products')

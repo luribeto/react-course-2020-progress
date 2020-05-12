@@ -3,7 +3,7 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 
-const filterValueChanged = (props) => (e) => props.filterValueChanged(e.target.value);
+const filterValueChanged = (props) => (e) => props.filterValueChanged(e);
 const stockOnlyValueChanged = (props) => () => props.stockOnlyValueChanged();
 
 const SearchBar = props => {

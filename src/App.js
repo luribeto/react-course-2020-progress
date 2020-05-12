@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { fetchProducts } from './services/products'
+
 import { Provider } from 'react-redux'
 import { store } from './redux/store'
 
 import Header from './components/Header';
-
 import FilterableProductTable from './components/FilterableProductTable.js';
+
 
 class App extends Component {
   render() {
@@ -20,4 +20,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
