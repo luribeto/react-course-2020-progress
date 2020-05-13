@@ -58,6 +58,7 @@ const ProductsTable = props => {
   }
   // Conditional rendering for progress icon
   if (isLoading) return (<CircularProgress />)
+  if (products.length === 0) return (<p>There is not product to show</p>)
   return (
     <Table>
       <TableHead>
