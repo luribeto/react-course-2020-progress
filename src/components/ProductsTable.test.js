@@ -1,49 +1,54 @@
-import React from 'react'
-import Enzyme, { shallow, mount } from 'enzyme'
-
+import React from 'react';
 import ProductsTable from './ProductsTable'
-import Table from '@material-ui/core/Table';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { cleanup } from '@testing-library/react'
 import { renderWithRedux } from '../test/utils'
 
+afterEach(cleanup)
+
 describe('ProductsTable', () => {
-  let wrapper
-  const filterText = ''
-  const isStockOnly = false
+  let filterText = ''
+  let isStockOnly = false
 
-  it('Render progress state', () => {
-    const mockBeforeProducts = {
-      productsList: {
-        isLoading: true,
-        products: [],
-        selectedProducts: [],
+  test('display the not product warning', () => {
+    const { getByText } = renderWithRedux(
+      <ProductsTable {...{ filterText, isStockOnly }} />,
+      {
+        initialState: {
+          productsList: {
+            isLoading: false,
+            products: [],
+            selectedProducts: []
+          }
+        }
       }
-    }
+    )
 
-    wrapper = mount(renderWithRedux(<ProductsTable {...{ filterText, isStockOnly }} />, mockBeforeProducts))
-
-    expect(wrapper).not.toBeNull()
-    expect(wrapper.find(Table)).toHaveLength(0)
-    expect(wrapper.find(CircularProgress)).toHaveLength(1)
+    const unexistingProduct = getByText('There is not product to show')
+    expect(unexistingProduct).not.toBe(undefined)
   })
 
-  it('Once products renders table', () => {
-    const mockAfterProducts = {
-      productsList: {
-        isLoading: false,
-        products: [
-          { id: 1, category: "Sporting Goods", name: 'MyProduct1', price: '$4,99', stocked: true },
-          { id: 2, category: "Sporting Goods", name: 'MyProduct2', price: '$4,99', stocked: false },
-          { id: 3, category: "Electronics", name: 'MyProduct3', price: '$4,99', stocked: true },
-        ],
-        selectedProducts: [],
+  test('display the category row for a product', () => {
+    const { getByText } = renderWithRedux(
+      <ProductsTable {...{ filterText, isStockOnly }} />,
+      {
+        initialState: {
+          productsList: {
+            isLoading: false,
+            products: [
+              {
+                "category": "Sporting Goods",
+                "price": "$49.99",
+                "stocked": false,
+                "name": "Football"
+              }
+            ],
+            selectedProducts: []
+          }
+        }
       }
-    }
+    )
 
-    wrapper = mount(renderWithRedux(<ProductsTable {...{ filterText, isStockOnly }} />, mockAfterProducts))
-
-    expect(wrapper).not.toBeNull()
-    expect(wrapper.find(Table)).toHaveLength(1)
-    expect(wrapper.find(CircularProgress)).toHaveLength(0)
+    const unexistingProduct = getByText('Sporting Goods')
+    expect(unexistingProduct).not.toBe(undefined)
   })
 })

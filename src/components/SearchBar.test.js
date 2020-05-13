@@ -1,36 +1,35 @@
-import React from 'react'
-import Enzyme, { mount } from 'enzyme'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'
+import { store } from '../redux/store'
 import SearchBar from './SearchBar'
-import Checkbox from '@material-ui/core/Checkbox';
-import TextField from '@material-ui/core/TextField';
+import { cleanup, fireEvent } from '@testing-library/react'
+import { renderWithRedux } from '../test/utils'
 
-describe('SearchBar', () => {
-  const stockOnlyValueChanged = jest.fn()
-  const filterValueChanged = jest.fn()
-  let isStockOnly = false
-  let filterText = ''
-  let wrapper
+afterEach(cleanup)
 
-  beforeEach(() => {
-    wrapper = mount(<SearchBar {...{ stockOnlyValueChanged, filterValueChanged, isStockOnly, filterText }} />)
+describe('SearchBar ', () => {
+  test('renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render((
+      <Provider store={store}>
+        <SearchBar />
+      </Provider>
+    ), div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
+
+  test('displays the input to search a product', () => {
+    const { getByText } = renderWithRedux(<SearchBar />)
+
+    const inputLabel = getByText('Search Product')
+    expect(inputLabel).not.toBe(undefined)
   })
 
-  it('Render correctly', () => {
-    expect(wrapper).not.toBeNull()
-    expect(wrapper.find(Checkbox)).toHaveLength(1)
-    expect(wrapper.find(TextField)).toHaveLength(1)
-  })
+  test('displays the checkbox to to search a product in the stock only', () => {
+    const { getByText } = renderWithRedux(<SearchBar />)
 
-  it('Execute stockOnlyValueChanged', () => {
-    const checkbox = wrapper.find(Checkbox)
-    checkbox.find('input').simulate('change');
-    expect(stockOnlyValueChanged).toHaveBeenCalled();
-  })
-
-  it('Execute stockOnlyValueChanged', () => {
-    const textField = wrapper.find(TextField)
-    textField.find('input').simulate('change', { target: { value: 'bas' } });
-    expect(filterValueChanged).toHaveBeenCalled();
+    const checkbox = getByText('Only show products in stock')
+    expect(checkbox).not.toBe(undefined)
   })
 })
-
